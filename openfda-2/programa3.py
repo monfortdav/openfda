@@ -16,7 +16,7 @@ conn.close()
 fichero = open ('label.json', 'w')
 fichero.write(estructura_json)
 fichero.close()
-#fin de escribir
+#fin  escribir
 
 
 label = json.loads(estructura_json)
