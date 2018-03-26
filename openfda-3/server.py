@@ -3,7 +3,7 @@ import socketserver
 import http.client
 import json
 
-# -- Puerto donde lanzar el servidor
+# -- Puerto donde lanzamos el servidor
 PORT = 8001
 
 
