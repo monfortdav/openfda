@@ -3,9 +3,8 @@ import socketserver
 import http.client
 import json
 
-# -- Puerto donde lanzamos el servidor
+#Puerto donde lanzamos el servidor
 PORT = 8001
-
 
 def dame_lista():
     lista = []
@@ -21,10 +20,10 @@ def dame_lista():
 
     label = json.loads(estructura_json)
     for i in range(len(label['results'])):
-        medicamento_info = label['results'][i]
-        if (medicamento_info['openfda']):
-            print('Fabricante: ', medicamento_info['openfda']['generic_name'][0])
-            lista.append(medicamento_info['openfda']['generic_name'][0])
+        info_medicamento = label['results'][i]
+        if (info_medicamento['openfda']):
+            print('Fabricante: ', info_medicamento['openfda']['generic_name'][0])
+            lista.append(info_medicamento['openfda']['generic_name'][0])
 
     return lista
 # Clase con nuestro manejador. Es una clase derivada de BaseHTTPRequestHandler
@@ -55,9 +54,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         return
 
 
-# ----------------------------------
 # El servidor comienza a aqui
-# ----------------------------------
 # Establecemos como manejador nuestra propia clase
 Handler = testHTTPRequestHandler
 
@@ -71,6 +68,3 @@ except KeyboardInterrupt:
 httpd.server_close()
 print("")
 print("Server stopped!")
-
-
-
