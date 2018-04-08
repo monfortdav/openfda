@@ -4,7 +4,7 @@ import http.client
 import json
 
 #Puerto donde lanzamos el servidor
-PORT = 8006
+PORT = 8008
 
 def dame_lista():
     lista = []
@@ -22,7 +22,7 @@ def dame_lista():
     for i in range(len(label['results'])):
         info_medicamento = label['results'][i]
         if (info_medicamento['openfda']):
-            print('Fabricante: ', info_medicamento['openfda']['generic_name'][0])
+            print('Nombre medicamento: ', info_medicamento['openfda']['generic_name'][0])
             lista.append(info_medicamento['openfda']['generic_name'][0])
 
     return lista
@@ -44,7 +44,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         # contenido que le enviamos (que sera HTML)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        content="<html><body style='background-color:purple'><h1>MEDICAMENTOS:</h2>"
+        content="<html><body style='background-color: violet'><h1>MEDICAMENTOS:</h2>"
         lista=dame_lista ()
         for e in lista:
             content += e+"<br>"
