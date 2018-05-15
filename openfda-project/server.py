@@ -205,11 +205,12 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             resultado_html = self.dame_web(companies)
             self.wfile.write(bytes(resultado_html, "utf8"))
         elif 'redirect' in self.path:
-            self.send_error(302)
+            print('Mandamos la redireccion a la página principal')
+            self.send_response(301)
             self.send_header('Location', 'http://localhost:'+str(PORT))
             self.end_headers()
         elif 'secret' in self.path:
-            self.send_error(401)
+            self.send_response(401)
             self.send_header('WWW-Authenticate', 'Basic realm="Mi servidor"')
             self.end_headers()
         else:
