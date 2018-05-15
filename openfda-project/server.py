@@ -2,17 +2,21 @@ import http.server
 import http.client
 import json
 import socketserver
+#Nos llega info de openfda en ficheros json y trabajamos en json.loads.
+#Usamos el import socket porque la prática va a escuchar en un socket y a implantar un servidor en un socket.
+#Los otros dos imports son porque (server) yo voy a ser un servidor y (client) porque yo voy a ser también un cliente de openfda.
 
 PORT=8000
 
 class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     # GET
+    #API: conjunto de utilidades o recursos que nosotros podemos utilizar.
     OPENFDA_API_URL="api.fda.gov"
     OPENFDA_API_EVENT="/drug/label.json"
     OPENFDA_API_DRUG='&search=active_ingredient:'
     OPENFDA_API_COMPANY='&search=openfda.manufacturer_name:'
 
-
+    #Construye la web de los formularios como un string.
     def get_main_page(self):
         html = """
             <html>
@@ -213,7 +217,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(401)
             self.send_header('WWW-Authenticate', 'Basic realm="Mi servidor"')
             self.end_headers()
-        else:
+        else: #Si el recurso solicitado no se encuentra en el servidor.
             self.send_error(404)
             self.send_header('Content-type', 'text/plain; charset=utf-8')
             self.end_headers()
@@ -221,13 +225,14 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         return
 
 
-#Para reservar la ip y el puerto donde el servidor va a escuchar. Permite que se renueve el puerto ya usado
+#Para reservar la ip y el puerto donde el servidor va a escuchar. Permite que se renueve el puerto ya usado. Esta instrucción sirve para cambiar el puerto cuando está pillado y poderlo reutilizarlo.
 socketserver.TCPServer.allow_reuse_address= True
 
 #Handler: manejador, es una instancia de la clase, sabe responder ante un do get, manejador de http.
+#El manejador no está siempre ejecutando. Cada vez que llegue algo al puerto, este se encarga de gestionar la respuesta.
 Handler = testHTTPRequestHandler
 
-#Asocia una ip y un puerto al manejador de peticiones.
+#Asocia una ip y un puerto al manejador de peticiones. Cuando llegue una petición a la ip y al puerto el programa le dice a nuestro manejador que atienda.
 httpd = socketserver.TCPServer(("", PORT), Handler)
 print("serving at port", PORT)
 #Forever: Es la línea para que empiece a funcionar el programa.
